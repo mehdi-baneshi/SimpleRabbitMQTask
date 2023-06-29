@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleRabbit.Core.Domain\SimpleRabbit.Core.Domain.csproj" />
+    <ProjectReference Include="..\SimpleRabbit.Subscriber.Domain\SimpleRabbit.Subscriber.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
