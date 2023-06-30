@@ -54,7 +54,7 @@ namespace SimpleRabbit.Publisher
             {
                 _bus.Publish(new PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
                 Console.WriteLine("a message was sent");
-                await Task.Delay(10000);
+                await Task.Delay(15000);
             }
         }
     }

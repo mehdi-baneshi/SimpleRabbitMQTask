@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRabbit.Subscriber.App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRabbit.Subscriber.DapperDataAccess", "SimpleRabbit.Subscriber.DapperDataAccess\SimpleRabbit.Subscriber.DapperDataAccess.csproj", "{AB5FE053-5C3C-49EF-A1DD-9752FA89F220}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRabbit.Subscriber.API", "SimpleRabbit.Subscriber.API\SimpleRabbit.Subscriber.API.csproj", "{6517D526-8D52-410C-AA5F-12C260440A2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{AB5FE053-5C3C-49EF-A1DD-9752FA89F220}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB5FE053-5C3C-49EF-A1DD-9752FA89F220}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB5FE053-5C3C-49EF-A1DD-9752FA89F220}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6517D526-8D52-410C-AA5F-12C260440A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6517D526-8D52-410C-AA5F-12C260440A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6517D526-8D52-410C-AA5F-12C260440A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6517D526-8D52-410C-AA5F-12C260440A2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{CDF55B30-4672-4457-A43B-D8F96BCAC380} = {91527901-FE21-431F-884C-EE524AB618E2}
 		{FA046FD4-DCE1-4A12-AB06-96DD18283AFE} = {91527901-FE21-431F-884C-EE524AB618E2}
 		{AB5FE053-5C3C-49EF-A1DD-9752FA89F220} = {137E4B19-5E2A-48BF-BC99-5CF72AFC1866}
+		{6517D526-8D52-410C-AA5F-12C260440A2D} = {1B1AE10B-1860-4438-B17A-1A1FB0CE6F60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37D911EC-742E-45E3-99A7-1F246B4E8BDF}

@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SimpleRabbit.Core.Domain\SimpleRabbit.Core.Domain.csproj" />
     <ProjectReference Include="..\SimpleRabbit.Infra.Bus\SimpleRabbit.Infra.Bus.csproj" />
+    <ProjectReference Include="..\SimpleRabbit.Subscriber.Application\SimpleRabbit.Subscriber.Application.csproj" />
+    <ProjectReference Include="..\SimpleRabbit.Subscriber.DapperDataAccess\SimpleRabbit.Subscriber.DapperDataAccess.csproj" />
   </ItemGroup>
 
 </Project>

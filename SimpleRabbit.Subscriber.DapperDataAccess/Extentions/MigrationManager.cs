@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
 
 namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
 {
     public static class MigrationManager
     {
-        public static IHost MigrateDatabase(this IHost host)
+        public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
         {
-            using (var scope = host.Services.CreateScope())
+            using (var scope = app.ApplicationServices.CreateScope())
             {
                 var databaseService = scope.ServiceProvider.GetRequiredService<Database>();
                 var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
@@ -25,7 +26,6 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
 
                     migrationService.ListMigrations();
                     migrationService.MigrateUp();
-                    //migrationService.MigrateDown(202306300001);
 
                 }
                 catch
@@ -35,7 +35,7 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
                 }
             }
 
-            return host;
+            return app;
         }
     }
 }

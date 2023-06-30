@@ -11,7 +11,11 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess
         {
             _configuration = configuration;
         }
+
         public IDbConnection CreateConnection()
-            => new SqlConnection(_configuration.GetConnectionString("SqlConnection"));
+            => new SqlConnection(_configuration.GetConnectionString("AppConnString"));
+
+        public IDbConnection CreateMasterConnection()
+            => new SqlConnection(_configuration.GetConnectionString("MasterConnString"));
     }
 }
