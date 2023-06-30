@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleRabbit.Subscriber.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace SimpleRabbit.Subscriber.Domain.Interfaces.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<List<T>> Get();
-        Task<T> Add(T entity);
+        Task Add(T entity);
     }
 }
