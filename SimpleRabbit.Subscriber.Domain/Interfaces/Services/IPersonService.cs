@@ -10,7 +10,8 @@ namespace SimpleRabbit.Subscriber.Domain.Interfaces.Services
 {
     public interface IPersonService
     {
-        Task<List<Person>> GetPersons();
+        Task<List<Person>> GetPersonsFromSqlDB();
+        Task<List<Person>> GetPersonsFromRedis();
         Task<string> AddPerson(CreatePersonDto person);
     }
 }

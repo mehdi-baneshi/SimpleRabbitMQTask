@@ -7,8 +7,10 @@ using SimpleRabbit.Subscriber.Application.Services;
 using SimpleRabbit.Subscriber.DapperDataAccess;
 using SimpleRabbit.Subscriber.DapperDataAccess.Migrations;
 using SimpleRabbit.Subscriber.DapperDataAccess.Repository;
+using SimpleRabbit.Subscriber.Domain.Interfaces.Redis;
 using SimpleRabbit.Subscriber.Domain.Interfaces.Repositories;
 using SimpleRabbit.Subscriber.Domain.Interfaces.Services;
+using SimpleRabbit.Subscriber.RedisDataAccess.RedisService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,7 @@ namespace SimpleRabbit.Infra.Ioc
 
             //Data
             services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddTransient<IPersonRedisService, PersonRedisService>();
             services.AddSingleton<DapperContext>();
             services.AddSingleton<Database>();
         }

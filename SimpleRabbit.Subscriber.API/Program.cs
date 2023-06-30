@@ -19,10 +19,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SimpleRabbit.Subscriber.DapperDataAccess.Extentions;
+using SimpleRabbit.Subscriber.RedisDataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureDapperServices(builder.Configuration);
+builder.Services.ConfigureRedisServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

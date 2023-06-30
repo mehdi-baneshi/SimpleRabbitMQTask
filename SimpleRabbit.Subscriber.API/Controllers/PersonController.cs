@@ -20,11 +20,20 @@ namespace SimpleRabbit.Subscriber.API.Controllers
             _personService = personService;
         }
 
-        // GET api/GetPersons
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
+        // GET api/GetPersonsFromSqlDB
+        [HttpGet("GetPersonsFromSqlDB")]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPersonsFromSqlDB()
         {
-            var response=await _personService.GetPersons();
+            var response=await _personService.GetPersonsFromSqlDB();
+
+            return Ok(response);
+        }
+
+        // GET api/GetPersonsFromRedis
+        [HttpGet("GetPersonsFromRedis")]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPersonsFromRedis()
+        {
+            var response = await _personService.GetPersonsFromRedis();
 
             return Ok(response);
         }
