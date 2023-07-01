@@ -13,9 +13,9 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
 {
     public static class MigrationManager
     {
-        public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
+        public static IHost MigrateDatabase(this IHost host)
         {
-            using (var scope = app.ApplicationServices.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
                 var databaseService = scope.ServiceProvider.GetRequiredService<Database>();
                 var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
@@ -28,14 +28,12 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
                     migrationService.MigrateUp();
 
                 }
-                catch
+                catch(Exception ex)
                 {
-                    //log errors or ...
-                    throw;
+                    throw new Exception(ex.Message);
                 }
             }
-
-            return app;
+            return host;
         }
     }
 }

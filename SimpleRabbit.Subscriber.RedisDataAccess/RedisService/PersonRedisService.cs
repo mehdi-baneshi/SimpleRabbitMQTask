@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 using SimpleRabbit.Subscriber.Domain.Entities;
 using SimpleRabbit.Subscriber.Domain.Interfaces.Redis;
 using SimpleRabbit.Subscriber.Domain.Interfaces.Repositories;
@@ -13,7 +14,7 @@ namespace SimpleRabbit.Subscriber.RedisDataAccess.RedisService
 {
     public class PersonRedisService : RedisService<Person>, IPersonRedisService
     {
-        public PersonRedisService(IDistributedCache cache, IConnectionMultiplexer redis) : base(cache, redis)
+        public PersonRedisService(IDistributedCache cache, IConnectionMultiplexer redis, IConfiguration configuration) : base(cache, redis, configuration)
         {
         }
     }

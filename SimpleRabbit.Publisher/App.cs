@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Hosting;
 using SimpleRabbit.Core.Domain.Bus;
-using SimpleRabbit.Publisher.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace SimpleRabbit.Publisher
 {
-    public class App
+    public class App : BackgroundService
     {
         private readonly IEventBus _bus;
-        private readonly List<Person> _persons;
+        private readonly List<Personn> _persons;
 
         public App(IEventBus bus)
         {
             _bus = bus;
-            _persons = new List<Person>();
+            _persons = new List<Personn>();
         }
 
         public void Run(string[] args)
@@ -35,11 +34,11 @@ namespace SimpleRabbit.Publisher
 
         private void GetSamplePersons()
         {
-            var person1 = new Person("Ahmad", "Majlesara", 35);
-            var person2 = new Person("Borna", "Shayesteh", 30);
-            var person3 = new Person("Ghasem", "Mokhaberati", 50);
-            var person4 = new Person("Panjali", "Shayegan", 90);
-            var person5 = new Person("Pouya", "Jalilvand", 25);
+            var person1 = new Personn("Ahmad", "Majlesara", 35);
+            var person2 = new Personn("Borna", "Shayesteh", 30);
+            var person3 = new Personn("Ghasem", "Mokhaberati", 50);
+            var person4 = new Personn("Panjali", "Shayegan", 90);
+            var person5 = new Personn("Pouya", "Jalilvand", 25);
 
             _persons.Add(person1);
             _persons.Add(person2);
@@ -52,16 +51,41 @@ namespace SimpleRabbit.Publisher
         {
             foreach (var person in _persons)
             {
-                _bus.Publish(new PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
+                _bus.Publish(new SimpleRabbit.Publisher.Event.PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
                 Console.WriteLine("a message was sent");
                 await Task.Delay(15000);
             }
         }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            GetSamplePersons();
+
+            Task.Run(async delegate
+            {
+                await PublishWithDely();
+            }).Wait();
+
+            Console.WriteLine("finished");
+            Console.ReadLine();
+
+            await Task.CompletedTask;
+        }
+
+        public override Task StartAsync(CancellationToken cancellationToken)
+        {
+            return base.StartAsync(cancellationToken);
+        }
+
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
+            return base.StopAsync(cancellationToken);
+        }
     }
 
-    public class Person
+    public class Personn
     {
-        public Person(string firstName, string lastName, int age)
+        public Personn(string firstName, string lastName, int age)
         {
             FirstName = firstName;
             LastName = lastName;

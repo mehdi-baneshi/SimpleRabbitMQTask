@@ -1,31 +1,20 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleRabbit.Infra.Ioc;
 using SimpleRabbit.Publisher;
 
-using IHost host = CreateHostBuilder(args).Build();
-using var scope = host.Services.CreateScope();
+var host = CreateHostBuilder(args).Build();
 
-var services = scope.ServiceProvider;
-
-try
+IHostBuilder CreateHostBuilder(string[] args)
 {
-    services.GetRequiredService<App>().Run(args);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.Message);
-}
-
-IHostBuilder CreateHostBuilder(string[] strings)
-{
-    return Host.CreateDefaultBuilder()
+    return Host.CreateDefaultBuilder(args)
+        .UseWindowsService()
         .ConfigureServices((_, services) =>
         {
             DependencyContainer.RegisterServices(services);
-            services.AddSingleton<App>();
+            services.AddHostedService<App>();
         });
 }
+
+host.Run();

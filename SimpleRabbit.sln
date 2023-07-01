@@ -35,7 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRabbit.Subscriber.Dap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRabbit.Subscriber.API", "SimpleRabbit.Subscriber.API\SimpleRabbit.Subscriber.API.csproj", "{6517D526-8D52-410C-AA5F-12C260440A2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleRabbit.Subscriber.RedisDataAccess", "SimpleRabbit.Subscriber.RedisDataAccess\SimpleRabbit.Subscriber.RedisDataAccess.csproj", "{4AA643E4-F4D9-4237-88BC-75054272C907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRabbit.Subscriber.RedisDataAccess", "SimpleRabbit.Subscriber.RedisDataAccess\SimpleRabbit.Subscriber.RedisDataAccess.csproj", "{4AA643E4-F4D9-4237-88BC-75054272C907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppService", "AppService", "{A6F3F8C8-FC81-439E-89E6-FCA30F361AB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRabbit.Subscriber", "SimpleRabbit.Subscriber\SimpleRabbit.Subscriber.csproj", "{23711489-6123-4749-ADE3-FC6D7B8C4A70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +83,10 @@ Global
 		{4AA643E4-F4D9-4237-88BC-75054272C907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AA643E4-F4D9-4237-88BC-75054272C907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AA643E4-F4D9-4237-88BC-75054272C907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +104,8 @@ Global
 		{AB5FE053-5C3C-49EF-A1DD-9752FA89F220} = {137E4B19-5E2A-48BF-BC99-5CF72AFC1866}
 		{6517D526-8D52-410C-AA5F-12C260440A2D} = {1B1AE10B-1860-4438-B17A-1A1FB0CE6F60}
 		{4AA643E4-F4D9-4237-88BC-75054272C907} = {137E4B19-5E2A-48BF-BC99-5CF72AFC1866}
+		{A6F3F8C8-FC81-439E-89E6-FCA30F361AB2} = {F720B401-AF38-44AA-89BD-B8614613CFEB}
+		{23711489-6123-4749-ADE3-FC6D7B8C4A70} = {A6F3F8C8-FC81-439E-89E6-FCA30F361AB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37D911EC-742E-45E3-99A7-1F246B4E8BDF}

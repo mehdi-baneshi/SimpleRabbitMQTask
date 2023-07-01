@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 using SimpleRabbit.Subscriber.Domain.Entities;
 using SimpleRabbit.Subscriber.Domain.Interfaces.Redis;
 using StackExchange.Redis;
@@ -17,11 +18,17 @@ namespace SimpleRabbit.Subscriber.RedisDataAccess.RedisService
         private readonly IDistributedCache _cache;
         private readonly IConnectionMultiplexer _redis;
         private readonly string entityName;
-        public RedisService(IDistributedCache cache, IConnectionMultiplexer redis)
+        private readonly string host;
+        private readonly int port;
+        public RedisService(IDistributedCache cache, IConnectionMultiplexer redis, IConfiguration configuration)
         {
             _cache = cache;
             _redis = redis;
             entityName = typeof(T).Name;
+            var redisConfig = configuration.GetValue<string>("RedisConnection");
+            var splitted = redisConfig.Split(':');
+            host= splitted[0];
+            port = Int32.Parse(splitted[1]);
         }
 
         public async Task Add(T entity)
@@ -33,7 +40,7 @@ namespace SimpleRabbit.Subscriber.RedisDataAccess.RedisService
 
         public async Task<List<T>> Get()
         {
-            var redisKeys = _redis.GetServer("localhost", 6379).Keys(pattern: $"{entityName}_*")
+            var redisKeys = _redis.GetServer(host, port).Keys(pattern: $"{entityName}_*")
                 .AsQueryable().Select(p => p.ToString()).ToList();
 
             var items = new List<T>();
