@@ -105,8 +105,8 @@ namespace SimpleRabbit.Infra.Bus
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"the message: '{message}' is recivable from queue but something went wrong with handling it in subscriber app");
-                    channel.BasicReject(e.DeliveryTag, false);
                     _logger.LogWarning($"the message: '{message}' REJECTED because '{ex.Message}'");
+                    channel.BasicReject(e.DeliveryTag, true);
                 }
             };
 

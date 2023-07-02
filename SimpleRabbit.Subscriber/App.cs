@@ -36,7 +36,7 @@ namespace SimpleRabbit.Subscriber
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Start pf recieving messages");
+            _logger.LogInformation("Start of recieving messages");
             return base.StartAsync(cancellationToken);
         }
 

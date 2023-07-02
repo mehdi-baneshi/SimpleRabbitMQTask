@@ -20,6 +20,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SimpleRabbit.Subscriber.DapperDataAccess.Extentions;
 using SimpleRabbit.Subscriber.RedisDataAccess;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,6 @@ builder.Services.ConfigureDapperServices(builder.Configuration);
 builder.Services.ConfigureRedisServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddLogging();
 
 builder.Services.AddCors(o =>
 {
@@ -41,6 +41,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Simple Rabbit-Subscriber", Version = "v1" });
 });
+
+builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
 
 RegisterServices(builder.Services);
 

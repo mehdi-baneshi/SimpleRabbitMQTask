@@ -44,21 +44,18 @@ namespace SimpleRabbit.Publisher
             foreach (var person in _persons)
             {
                 _bus.Publish(new SimpleRabbit.Publisher.Event.PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
-                _logger.LogInformation("a message was sent");
+                _logger.LogInformation($"Sending of a message (person: {person.FirstName} {person.LastName}) to RabbitMQ started...");
                 await Task.Delay(15000);
             }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Adding persons started");
-
             Task.Run(async delegate
             {
                 await PublishWithDely();
             }).Wait();
 
-            _logger.LogInformation("Adding persons finished");
             Console.ReadLine();
 
             await Task.CompletedTask;
@@ -66,11 +63,13 @@ namespace SimpleRabbit.Publisher
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Sending persons started");
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Sending persons finished");
             return base.StopAsync(cancellationToken);
         }
     }
