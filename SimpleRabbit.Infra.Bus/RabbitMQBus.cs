@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleRabbit.Core.Domain.Event;
+using Microsoft.Extensions.Logging;
 
 namespace SimpleRabbit.Infra.Bus
 {
@@ -17,10 +18,12 @@ namespace SimpleRabbit.Infra.Bus
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly ILogger<RabbitMQBus> _logger;
 
-        public RabbitMQBus(IServiceScopeFactory serviceScopeFactory)
+        public RabbitMQBus(IServiceScopeFactory serviceScopeFactory, ILogger<RabbitMQBus> logger)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _logger = logger;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
         }
@@ -39,6 +42,7 @@ namespace SimpleRabbit.Infra.Bus
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish("", eventName, null, body);
+                _logger.LogInformation($"A message: '{message}' PUBLISHED");
             }
 
         }
@@ -87,23 +91,26 @@ namespace SimpleRabbit.Infra.Bus
             channel.QueueDeclare(eventName, false, false, false, null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
-            consumer.Received += Consumer_Received;
+
+            consumer.Received += async(sender, e) =>
+            {
+                var eventName = e.RoutingKey;
+                var message = Encoding.UTF8.GetString(e.Body.Span);
+
+                try
+                {
+                    await ProcessEvent(eventName, message).ConfigureAwait(false);
+                    _logger.LogInformation($"A message: '{message}' CONSUMED");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"the message: '{message}' is recivable from queue but something went wrong with handling it in subscriber app");
+                    channel.BasicReject(e.DeliveryTag, false);
+                    _logger.LogWarning($"the message: '{message}' REJECTED because '{ex.Message}'");
+                }
+            };
 
             channel.BasicConsume(eventName, true, consumer);
-        }
-
-        private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
-        {
-            var eventName = e.RoutingKey;
-            var message = Encoding.UTF8.GetString(e.Body.Span);
-
-            try
-            {
-                await ProcessEvent(eventName, message).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private async Task ProcessEvent(string eventName, string message)

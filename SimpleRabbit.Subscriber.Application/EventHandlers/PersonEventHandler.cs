@@ -19,16 +19,14 @@ namespace SimpleRabbit.Subscriber.Application.EventHandlers
             _personService = personService;
         }
 
-        public Task Handle(PersonCreatedEvent @event)
+        public async Task Handle(PersonCreatedEvent @event)
         {
-            _personService.AddPerson(new CreatePersonDto
+            await _personService.AddPerson(new CreatePersonDto
             {
                 Age = @event.Age,
                 FirstName = @event.FirstName,
                 LastName = @event.LastName
             });
-
-            return Task.CompletedTask;
         }
     }
 }

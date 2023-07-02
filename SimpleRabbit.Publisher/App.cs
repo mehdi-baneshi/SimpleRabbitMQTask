@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SimpleRabbit.Core.Domain.Bus;
 using System;
 using System.Collections.Generic;
@@ -12,27 +13,16 @@ namespace SimpleRabbit.Publisher
     {
         private readonly IEventBus _bus;
         private readonly List<Personn> _persons;
+        private readonly ILogger<App> _logger;
 
-        public App(IEventBus bus)
+        public App(IEventBus bus, ILogger<App> logger)
         {
             _bus = bus;
+            _logger = logger;
             _persons = new List<Personn>();
         }
 
-        public void Run(string[] args)
-        {
-            GetSamplePersons();
-
-            Task.Run(async delegate
-            {
-                await PublishWithDely();
-            }).Wait();
-
-            Console.WriteLine("finished");
-            Console.ReadLine();
-        }
-
-        private void GetSamplePersons()
+        private void SetSamplePersons()
         {
             var person1 = new Personn("Ahmad", "Majlesara", 35);
             var person2 = new Personn("Borna", "Shayesteh", 30);
@@ -49,24 +39,26 @@ namespace SimpleRabbit.Publisher
 
         public async Task PublishWithDely()
         {
+            SetSamplePersons();
+
             foreach (var person in _persons)
             {
                 _bus.Publish(new SimpleRabbit.Publisher.Event.PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
-                Console.WriteLine("a message was sent");
+                _logger.LogInformation("a message was sent");
                 await Task.Delay(15000);
             }
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            GetSamplePersons();
+            _logger.LogInformation("Adding persons started");
 
             Task.Run(async delegate
             {
                 await PublishWithDely();
             }).Wait();
 
-            Console.WriteLine("finished");
+            _logger.LogInformation("Adding persons finished");
             Console.ReadLine();
 
             await Task.CompletedTask;

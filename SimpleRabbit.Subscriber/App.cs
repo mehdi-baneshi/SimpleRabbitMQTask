@@ -31,19 +31,18 @@ namespace SimpleRabbit.Subscriber
                 _logger.LogError(ex, ex.Message);
             }
 
-
             await Task.CompletedTask;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("start");
+            _logger.LogInformation("Start pf recieving messages");
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("end");
+            _logger.LogInformation("End of recieving messages");
             return base.StopAsync(cancellationToken);
         }
     }

@@ -24,13 +24,14 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Repository
             _tableName = typeof(T).Name+"s";
         }
 
-        public async Task Add(T entity)
+        public async Task<bool> Add(T entity)
         {
             var insertQuery = GenerateInsertQuery();
 
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(insertQuery, entity);
+                int rowsaffected=await connection.ExecuteAsync(insertQuery, entity);
+                return rowsaffected > 0;
             }
         }
 

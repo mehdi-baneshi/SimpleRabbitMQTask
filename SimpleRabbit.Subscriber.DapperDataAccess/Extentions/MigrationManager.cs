@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
 
 namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
 {
@@ -30,7 +31,7 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Extentions
                 }
                 catch(Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception("Somthing wrong with the database. Can not to migrate database or tables.", ex);
                 }
             }
             return host;

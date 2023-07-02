@@ -27,6 +27,7 @@ builder.Services.ConfigureDapperServices(builder.Configuration);
 builder.Services.ConfigureRedisServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddLogging();
 
 builder.Services.AddCors(o =>
 {
@@ -55,8 +56,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MigrateDatabase();
-ConfigureEventBus(app);
+try
+{
+    app.MigrateDatabase();
+    ConfigureEventBus(app);
+}
+catch (Exception ex)
+{
+    app.Services.GetRequiredService<ILogger<Program>>().LogError(ex, ex.Message);
+}
 
 app.Run();
 

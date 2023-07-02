@@ -11,6 +11,6 @@ namespace SimpleRabbit.Subscriber.Domain.Interfaces.Repositories
     public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<List<T>> Get();
-        Task Add(T entity);
+        Task<bool> Add(T entity);
     }
 }
