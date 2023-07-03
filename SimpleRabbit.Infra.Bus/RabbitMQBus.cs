@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleRabbit.Core.Domain.Event;
 using Microsoft.Extensions.Logging;
+using System.Threading.Channels;
 
 namespace SimpleRabbit.Infra.Bus
 {
@@ -96,21 +97,24 @@ namespace SimpleRabbit.Infra.Bus
             {
                 var eventName = e.RoutingKey;
                 var message = Encoding.UTF8.GetString(e.Body.Span);
-
                 try
                 {
                     await ProcessEvent(eventName, message).ConfigureAwait(false);
                     _logger.LogInformation($"A message: '{message}' CONSUMED");
+                    channel.BasicAck(e.DeliveryTag, true);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"the message: '{message}' is recivable from queue but something went wrong with handling it in subscriber app");
-                    _logger.LogWarning($"the message: '{message}' REJECTED because '{ex.Message}'");
-                    channel.BasicReject(e.DeliveryTag, true);
+                    _logger.LogError(ex, $"the message: '{message}' is recivable from queue but something went wrong with handling it in subscriber app.");
+                    string rejectedevaentName = eventName + "-REJECTED";
+                    channel.QueueDeclare(rejectedevaentName, false, false, false, null);
+                    channel.BasicPublish("", rejectedevaentName, null, e.Body);
+                    _logger.LogWarning($"the message: '{message}' REJECTED because:'{ex.Message}' and published to new queue: {rejectedevaentName}");
+                    channel.BasicReject(e.DeliveryTag, false);
                 }
             };
 
-            channel.BasicConsume(eventName, true, consumer);
+            channel.BasicConsume(eventName, false, consumer);
         }
 
         private async Task ProcessEvent(string eventName, string message)

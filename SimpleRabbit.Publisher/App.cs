@@ -24,10 +24,10 @@ namespace SimpleRabbit.Publisher
 
         private void SetSamplePersons()
         {
-            var person1 = new Personn("Ahmad", "Majlesara", 35);
+            var person1 = new Personn("Ahmad", "Majlesara", -35);
             var person2 = new Personn("Borna", "Shayesteh", 30);
             var person3 = new Personn("Ghasem", "Mokhaberati", 50);
-            var person4 = new Personn("Panjali", "Shayegan", 90);
+            var person4 = new Personn("Panjali", "", 90);
             var person5 = new Personn("Pouya", "Jalilvand", 25);
 
             _persons.Add(person1);
@@ -43,8 +43,8 @@ namespace SimpleRabbit.Publisher
 
             foreach (var person in _persons)
             {
-                _bus.Publish(new SimpleRabbit.Publisher.Event.PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
                 _logger.LogInformation($"Sending of a message (person: {person.FirstName} {person.LastName}) to RabbitMQ started...");
+                _bus.Publish(new SimpleRabbit.Publisher.Event.PersonCreatedEvent(person.FirstName, person.LastName, person.Age));
                 await Task.Delay(15000);
             }
         }
