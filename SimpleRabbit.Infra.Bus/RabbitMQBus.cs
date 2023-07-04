@@ -100,7 +100,7 @@ namespace SimpleRabbit.Infra.Bus
                 try
                 {
                     await ProcessEvent(eventName, message).ConfigureAwait(false);
-                    _logger.LogInformation($"A message: '{message}' CONSUMED");
+                    _logger.LogInformation($"A message: '{message}' CONSUMED from RabbitMQ queue: '{eventName}'");
                     channel.BasicAck(e.DeliveryTag, true);
                 }
                 catch (Exception ex)
