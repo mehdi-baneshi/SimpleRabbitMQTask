@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppService", "AppService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRabbit.Subscriber", "SimpleRabbit.Subscriber\SimpleRabbit.Subscriber.csproj", "{23711489-6123-4749-ADE3-FC6D7B8C4A70}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2FEE0722-598F-4698-B66D-D60FA5F57F75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23711489-6123-4749-ADE3-FC6D7B8C4A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FEE0722-598F-4698-B66D-D60FA5F57F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FEE0722-598F-4698-B66D-D60FA5F57F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FEE0722-598F-4698-B66D-D60FA5F57F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FEE0722-598F-4698-B66D-D60FA5F57F75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

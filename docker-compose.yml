@@ -1,0 +1,97 @@
+version: '3.4'
+
+networks:
+  simplerabbitnet:
+
+services:
+  sqldb:
+    container_name: subs-sqldb
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=p@ssWord1234
+    networks:
+      - simplerabbitnet
+
+  redis:
+    container_name: subs-redis
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - simplerabbitnet
+
+
+  rabbitmq:
+    container_name: app-rabbitmq
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - simplerabbitnet
+  
+  seq:
+    container_name: app-seq
+    image: datalust/seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:80
+    networks:
+      - simplerabbitnet
+
+  simplerabbit.publisher:
+    container_name: publ-app
+    image: ${DOCKER_REGISTRY-}simplerabbitpublisher
+    build:
+      context: .
+      dockerfile: SimpleRabbit.Publisher/Dockerfile
+    ports:
+      - 8001:8001
+    depends_on:
+      - rabbitmq
+    networks:
+      - simplerabbitnet
+
+  simplerabbit.subscriber:
+    container_name: subs-app
+    image: ${DOCKER_REGISTRY-}simplerabbitsubscriber
+    build:
+      context: .
+      dockerfile: SimpleRabbit.Subscriber/Dockerfile
+    ports:
+      - 8002:8002
+    depends_on:
+      - rabbitmq
+      - seq
+      - redis
+      - subscribersqldb
+    environment:
+      - DB_HOST=subscribersqldb
+      - DB_NAME=simplerabbitapp
+      - DB_SA_PASSWORD=p@ssWord1234
+    networks:
+      - simplerabbitnet
+
+  simplerabbit.subscriber.api:
+    container_name: subs-app-api
+    image: ${DOCKER_REGISTRY-}simplerabbitsubscriberapi
+    build:
+      context: .
+      dockerfile: SimpleRabbit.Subscriber.API/Dockerfile
+    ports:
+      - 8003:8003
+    depends_on:
+      - seq
+      - redis
+      - subscribersqldb
+    environment:
+      - DB_HOST=sqldb
+      - DB_NAME=simplerabbitapp
+      - DB_SA_PASSWORD=p@ssWord1234
+    networks:
+      - simplerabbitnet

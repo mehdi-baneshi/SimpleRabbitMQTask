@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SimpleRabbit.Publisher": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

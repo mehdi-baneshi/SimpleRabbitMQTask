@@ -20,7 +20,7 @@ namespace SimpleRabbit.Subscriber.DapperDataAccess.Migrations
             Create.Table(nameof(Person) + "s")
                 .WithColumn(nameof(Person.Id)).AsString().NotNullable().PrimaryKey()
                 .WithColumn(nameof(Person.FirstName)).AsString(50).NotNullable()
-                .WithColumn(nameof(Person.LastName)).AsString(100).NotNullable()
+                .WithColumn(nameof(Person.LastName)).AsString(50).NotNullable()
                 .WithColumn(nameof(Person.Age)).AsInt32().NotNullable();
         }
     }
